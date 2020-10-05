@@ -28,14 +28,7 @@ import math
 index = int(fileinput.input()[0])
 
 ring = int(((math.sqrt(index-1)+1)//2)+1)
-print("Ring: ", ring)
 ringStart = ((ring-1)*2-1) ** 2 + 1
-print("Ring Start:", ringStart)
-ringEnd = ((ring)*2-1) ** 2
-print("Ring End:", ringEnd)
-ringDiameter = ring*2 - 1
 ringCircumf = (ring-1)*8
-print("Ring circumferance:", ringCircumf)
 quadrantPos = (index-ringStart)%(ringCircumf//4)
-print("Position within quadrant: ", quadrantPos)
-print("Distance from origin:", ring - 1 + abs((ringCircumf//8)-(quadrantPos+1)))
+print(ring - 1 + abs((ringCircumf//8)-(quadrantPos+1)))
