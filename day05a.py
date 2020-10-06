@@ -1,10 +1,7 @@
 import fileinput
 
-memory = []
+memory = [int(instruction) 
+            for instruction in fileinput.input() 
+            if instruction != "\n"]
 
-for instruction in fileinput.input():
-    if(instruction == "\n"):
-        break
-    memory.append(int(instruction))
-    
 print (memory)
