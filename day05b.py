@@ -9,7 +9,10 @@ steps = 0
 
 while pc < len(memory):
     curMemory = memory[pc]
-    memory[pc] += 1
+    if curMemory >= 3:
+        memory[pc] -= 1
+    else:
+        memory[pc] += 1
     pc += curMemory
     steps += 1
     
