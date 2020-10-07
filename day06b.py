@@ -22,4 +22,4 @@ while banks not in history:
     #print (banks)
     #print (history)
     
-print (numOps)
+print (len(history)-history.index(banks))
