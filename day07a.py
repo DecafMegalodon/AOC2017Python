@@ -9,6 +9,10 @@ import fileinput
 #We -could- find the answer by finding the "program" which isn't referenced as a child to avoid building a tree
 #However, we'll probably need the full tree for part B anyway
 
+unmatchedProgs = [] #Programs for which we haven't yet found their parents
+parentLookupTable = {} #child name -> parent
+
+#Extract important bits from the puzzle input
 for line in fileinput.input():
     if line == '\n':
         break
@@ -19,4 +23,22 @@ for line in fileinput.input():
         subprograms = [subP.strip(",") for subP in splitline[3::]]
     else:
         subprograms = []
-    print(name, weight, subprograms)
+    unmatchedProgs.append({"name" : name, "childNames": subprograms, "childData": []})
+    
+    for child in subprograms:
+        parentLookupTable[child] = name
+    
+print(parentLookupTable)
+
+    
+#Build the tree
+while(len(unmatchedProgs) > 1):
+    for prog in unmatchedProgs:
+        if len(prog["childNames"]) != len(prog["childData"]):
+            print("Bonk")
+            continue #Don't find parents for parents who haven't found all their children yet
+        #All of this program's children (if any) are accounted for. We can find its parents now!
+        print("Cool, I could do something here")
+        
+        
+    print("%d left to process" % (len(unmatchedProgs)-1))
