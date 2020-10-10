@@ -16,16 +16,13 @@ for char in streamData:
     if isGarbage:
         if char == '!':
             skipping = True
+            continue
         if char == '>': #Garbage over
             isGarbage = False
+            continue
+        score += 1
         continue
     if char == '<':
         isGarbage = True
         continue
-    if char == '{':
-        depth += 1
-    if char == '}':
-        score += depth
-        depth -= 1
-    assert depth >= 0
 print(score)
