@@ -9,7 +9,6 @@ operations = {"<": lambda a, b : a<b,
 "!=": lambda a, b : a!=b}
 
 memory = {}
-maxreg = 0 #The highest value a register has achieved so far
 
 def readMemory(memory, register):
     if register in memory:
@@ -37,6 +36,5 @@ for line in fileinput.input():
     
     if opTrue:
         memory[targReg] = targRegValue + opSign*targAmount
-        maxreg = max(maxreg, memory[targReg])
     
-print(maxreg)
+print(max([memory[register] for register in memory]))
