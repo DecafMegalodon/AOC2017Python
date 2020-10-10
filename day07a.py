@@ -23,29 +23,32 @@ for line in fileinput.input():
         subprograms = [subP.strip(",") for subP in splitline[3::]]
     else:
         subprograms = []
-    unmatchedProgs.append({"name" : name, "childNames": subprograms, "childData": []})
+        
+    progData = {"name" : name, "childNames": subprograms, "childData": []}
+    unmatchedProgs.append(progData)
     
     for child in subprograms:
-        parentLookupTable[child] = name
+        parentLookupTable[child] = progData
+    
 
-print(unmatchedProgs)
-print("_____________________________")
-print(parentLookupTable)
+# print(unmatchedProgs)
+# print("_____________________________")
+# print(parentLookupTable)
 
     
 #Build the tree
 while(len(unmatchedProgs) > 1):
     for prog in unmatchedProgs:
         if len(prog["childNames"]) != len(prog["childData"]):
-            print("Bonk")
+            ##print("Bonk")
             continue #Don't find parents for parents who haven't found all their children yet
         #All of this program's children (if any) are accounted for. We can find its parents now!
-        print("Cool, I could do something here")
-        print(prog)
-        parentName = parentLookupTable[prog["name"]]
-        print(parentName)
-        parentIndex = (item['name'] for item in unmatchedProgs if item['name'] == parentName).next()
-        print(parentIndex)
-        print(unmatchedProgs.index(parentLookupTable[prog["name"]]))
+        #print("Cool, I could do something here")
+        #print(prog)
+        parentData = parentLookupTable[prog["name"]]
+        parentData["childData"].append(prog)
+        unmatchedProgs.remove(prog)
+        continue
         
-    print("%d left to process" % (len(unmatchedProgs)-1))
+    #print("%d left to process" % (len(unmatchedProgs)-1))
+print(unmatchedProgs[0]["name"])
