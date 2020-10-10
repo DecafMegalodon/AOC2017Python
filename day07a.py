@@ -30,12 +30,6 @@ for line in fileinput.input():
     for child in subprograms:
         parentLookupTable[child] = progData
     
-
-# print(unmatchedProgs)
-# print("_____________________________")
-# print(parentLookupTable)
-
-    
 #Build the tree
 while(len(unmatchedProgs) > 1):
     for prog in unmatchedProgs:
@@ -43,12 +37,8 @@ while(len(unmatchedProgs) > 1):
             ##print("Bonk")
             continue #Don't find parents for parents who haven't found all their children yet
         #All of this program's children (if any) are accounted for. We can find its parents now!
-        #print("Cool, I could do something here")
-        #print(prog)
         parentData = parentLookupTable[prog["name"]]
         parentData["childData"].append(prog)
         unmatchedProgs.remove(prog)
-        continue
         
-    #print("%d left to process" % (len(unmatchedProgs)-1))
 print(unmatchedProgs[0]["name"])
