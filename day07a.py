@@ -27,7 +27,9 @@ for line in fileinput.input():
     
     for child in subprograms:
         parentLookupTable[child] = name
-    
+
+print(unmatchedProgs)
+print("_____________________________")
 print(parentLookupTable)
 
     
@@ -39,6 +41,11 @@ while(len(unmatchedProgs) > 1):
             continue #Don't find parents for parents who haven't found all their children yet
         #All of this program's children (if any) are accounted for. We can find its parents now!
         print("Cool, I could do something here")
-        
+        print(prog)
+        parentName = parentLookupTable[prog["name"]]
+        print(parentName)
+        parentIndex = (item['name'] for item in unmatchedProgs if item['name'] == parentName).next()
+        print(parentIndex)
+        print(unmatchedProgs.index(parentLookupTable[prog["name"]]))
         
     print("%d left to process" % (len(unmatchedProgs)-1))
