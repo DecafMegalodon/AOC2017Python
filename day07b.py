@@ -24,7 +24,7 @@ for line in fileinput.input():
     else:
         subprograms = []
         
-    progData = {"name" : name, "childNames": subprograms, "childData": []}
+    progData = {"name" : name, "childNames": subprograms, "childData": [], "weight": weight}
     unmatchedProgs.append(progData)
     
     for child in subprograms:
@@ -39,6 +39,7 @@ while(len(unmatchedProgs) > 1):
         #All of this program's children (if any) are accounted for. We can find its parents now!
         parentData = parentLookupTable[prog["name"]]
         parentData["childData"].append(prog)
+        parentData["weight"] += prog["weight"]
         unmatchedProgs.remove(prog)
 
 print(unmatchedProgs[0]["name"])
