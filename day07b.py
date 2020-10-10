@@ -24,7 +24,7 @@ for line in fileinput.input():
     else:
         subprograms = []
         
-    progData = {"name" : name, "childNames": subprograms, "childData": [], "weight": weight}
+    progData = {"name" : name, "childNames": subprograms, "childData": [], "weight": weight, "baseWeight": weight}
     unmatchedProgs.append(progData)
     
     for child in subprograms:
@@ -34,12 +34,24 @@ for line in fileinput.input():
 while(len(unmatchedProgs) > 1):
     for prog in unmatchedProgs:
         if len(prog["childNames"]) != len(prog["childData"]):
-            ##print("Bonk")
             continue #Don't find parents for parents who haven't found all their children yet
         #All of this program's children (if any) are accounted for. We can find its parents now!
+        #But first, are our children (if any) "balanced"? Defined as all being the same
+        if(len(prog["childData"]) > 0):
+            weights = [child["weight"] for child in prog["childData"]]
+            weightSet = set(weights)
+            if(len(weightSet) > 1): #Children NOT balanced. We need to find the one that's different
+                weightList = list(weightSet) #Order is important
+                weightCounts = [weights.count(weight) for weight in weightList]
+                minIndex = weightCounts.index(min(weightCounts))
+                print(weights, weightList)
+                print(minIndex)
+                print(weightList[minIndex])
+                exit(0)
+            
         parentData = parentLookupTable[prog["name"]]
         parentData["childData"].append(prog)
         parentData["weight"] += prog["weight"]
         unmatchedProgs.remove(prog)
 
-print(unmatchedProgs[0]["name"])
+#print(unmatchedProgs[0]["name"])
