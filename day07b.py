@@ -1,5 +1,6 @@
 #https://adventofcode.com/2017/day/7
 import fileinput
+import collections
 
 #Input format
 #Pgrmname (weight) -> child1, ... , childn
@@ -40,14 +41,13 @@ while(len(unmatchedProgs) > 1):
         if(len(prog["childData"]) > 0):
             weights = [child["weight"] for child in prog["childData"]]
             weightSet = set(weights)
-            if(len(weightSet) > 1): #Children NOT balanced. We need to find the one that's different
-                weightList = list(weightSet) #Order is important
-                weightCounts = [weights.count(weight) for weight in weightList]
-                minIndex = weightCounts.index(min(weightCounts))
-                print(weights, weightList)
-                print(minIndex)
-                print(weightList[minIndex])
-                exit(0)
+            if(len(set(weights)) > 1): #Children NOT balanced. We need to find the one that's different
+                leastCommon = collections.Counter(weights).most_common()[-1][0] #The weight of our errant program, including children if any
+                mostCommon = collections.Counter(weights).most_common()[0][0]
+                badWeightIndex = weights.index(leastCommon)
+                print(prog["childData"][badWeightIndex]["baseWeight"] - (leastCommon-mostCommon))
+                #print(weights)
+                exit()
             
         parentData = parentLookupTable[prog["name"]]
         parentData["childData"].append(prog)
