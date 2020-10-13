@@ -34,8 +34,15 @@ data = [int(num)
 
 rope = [i for i in range(0,256)]
 
-for start in range(0, len(rope)):
-    for length in range(2, len(rope)):
-        print(start, length)
-        reverseSpan(rope, start, length)
-print(rope)
+
+curPos = 0
+skip = 1
+for length in data:
+    rope = reverseSpan(rope, curPos, length)
+    curPos += length
+    curPos += skip
+    curPos %= len(rope)
+    skip += 1
+    
+print(rope[0]*rope[1])
+#22052 is too high
