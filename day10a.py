@@ -13,12 +13,12 @@ Move the current position forward by that length plus the skip size.
 Increase the skip size by one.
 """
 
-#Technically, we're working with "string" not a "rope",
-#but rope was chosen as  name here for clarity
+#Reverses a subrange of a list given a start and length, wrapping around if needed.
 def reverseSpan(rope, start, length):
-    workRope = rope+rope
+    #Technically, we're working with "string" not a "rope",
+        #but rope was chosen as  name here for clarity
 
-    #Our modified potion of the hash state, which may or may not have wrapped around to the "front" of the string
+    workRope = rope+rope
     modRope = workSpan[start:start+length][::-1]
     
     for i in range(0,length):
@@ -31,8 +31,4 @@ indata = fileinput.input().readline()
 data = [int(num) 
             for num in indata.split(',')
             ]
-print(data)
 
-#0 1 2] 3 4 5 [6 7 8
-#modSpan == 2 1 0 8 7 6
-#NewSpan needs to == 8 7 6] 3 4 5 [2 1 0
