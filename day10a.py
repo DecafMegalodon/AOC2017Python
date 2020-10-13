@@ -22,8 +22,8 @@ def reverseSpan(rope, start, length):
     modRope = workSpan[start:start+length][::-1]
     
     for i in range(0,length):
-        workRope[(start+i)%256] = modSpan[i]
-    workSpan = workSpan[0:256]
+        workRope[(start+i)%len(rope)] = modSpan[i]
+    workSpan = workSpan[0:len(rope)]
     
     return workRope
 
