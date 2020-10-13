@@ -28,9 +28,9 @@ def reverseSpan(rope, start, length):
     return workRope
 
 indata = fileinput.input().readline()
-data = [int(num) 
-            for num in indata.split(',')
-            ]
+data = [ord(char) for char in indata if char != '\n']
+data += [17,31,73,47,23]
+print(data)
 
 rope = [i for i in range(0,256)]
 
