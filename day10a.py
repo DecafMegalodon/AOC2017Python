@@ -36,7 +36,7 @@ rope = [i for i in range(0,256)]
 
 
 curPos = 0
-skip = 1
+skip = 0
 for length in data:
     rope = reverseSpan(rope, curPos, length)
     curPos += length
