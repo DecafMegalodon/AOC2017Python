@@ -19,11 +19,11 @@ def reverseSpan(rope, start, length):
         #but rope was chosen as  name here for clarity
 
     workRope = rope+rope
-    modRope = workSpan[start:start+length][::-1]
+    modRope = workRope[start:start+length][::-1]
     
     for i in range(0,length):
-        workRope[(start+i)%len(rope)] = modSpan[i]
-    workSpan = workSpan[0:len(rope)]
+        workRope[(start+i)%len(rope)] = modRope[i]
+    workRope = workRope[0:len(rope)]
     
     return workRope
 
@@ -32,3 +32,10 @@ data = [int(num)
             for num in indata.split(',')
             ]
 
+rope = [i for i in range(0,256)]
+
+for start in range(0, len(rope)):
+    for length in range(2, len(rope)):
+        print(start, length)
+        reverseSpan(rope, start, length)
+print(rope)
