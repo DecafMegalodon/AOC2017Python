@@ -30,20 +30,34 @@ def reverseSpan(rope, start, length):
 indata = fileinput.input().readline()
 data = [ord(char) for char in indata if char != '\n']
 data += [17,31,73,47,23]
-print(data)
+#print("Data:", data)
 
 rope = [i for i in range(0,256)]
 
-
 curPos = 0
 skip = 0
-for length in data:
-    for round in range(0,64):
+for round in range(0,64):
+    #print(round)
+    for length in data:
         rope = reverseSpan(rope, curPos, length)
-    curPos += length
-    curPos += skip
-    curPos %= len(rope)
-    skip += 1
+        #print(curPos,length,skip,rope,"\n")
+        curPos += length
+        curPos += skip
+        curPos %= len(rope)
+        skip += 1
+
+ropecopy = rope.copy()
+ropecopy.sort()
+assert ropecopy == [i for i in range(0,256)] #Make sure nothing has gone -horribly- wrong with the hash
+
+print(rope)
+
+denseHash = []
+for block in range(0,16):
+    blockData = rope[block*16]
+    for subblock in range(1,16):
+        blockData = blockData ^ rope[block*16+subblock]
+    denseHash.append(blockData)
     
-print(rope[0]*rope[1])
-#22052 is too high
+for block in denseHash:
+    print(hex(block))
