@@ -26,11 +26,20 @@ def reverseSpan(rope, start, length):
     workRope = workRope[0:len(rope)]
     
     return workRope
+    
+def printHash(denseHash):
+    fullHash = ""
+    for eightbits in denseHash:
+        partHash = hex(eightbits)
+        partHash = partHash[2::] #Trim off the 0x
+        if(len(partHash) == 1):
+            partHash = '0' + partHash
+        fullHash += partHash
+    print(fullHash)
 
-indata = fileinput.input().readline()
-data = [ord(char) for char in indata if char != '\n']
+indata = fileinput.input().readline()[:-1:] #Omit the trailing newline python adds
+data = [ord(char) for char in indata]
 data += [17,31,73,47,23]
-#print("Data:", data)
 
 rope = [i for i in range(0,256)]
 
@@ -46,12 +55,6 @@ for round in range(0,64):
         curPos %= len(rope)
         skip += 1
 
-ropecopy = rope.copy()
-ropecopy.sort()
-assert ropecopy == [i for i in range(0,256)] #Make sure nothing has gone -horribly- wrong with the hash
-
-print(rope)
-
 denseHash = []
 for block in range(0,16):
     blockData = rope[block*16]
@@ -59,5 +62,4 @@ for block in range(0,16):
         blockData = blockData ^ rope[block*16+subblock]
     denseHash.append(blockData)
     
-for block in denseHash:
-    print(hex(block))
+printHash(denseHash)
