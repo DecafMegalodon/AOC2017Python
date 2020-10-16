@@ -17,7 +17,6 @@ Increase the skip size by one.
 def reverseSpan(rope, start, length):
     #Technically, we're working with "string" not a "rope",
         #but rope was chosen as  name here for clarity
-
     workRope = rope+rope
     modRope = workRope[start:start+length][::-1]
     
@@ -46,10 +45,8 @@ rope = [i for i in range(0,256)]
 curPos = 0
 skip = 0
 for round in range(0,64):
-    #print(round)
     for length in data:
         rope = reverseSpan(rope, curPos, length)
-        #print(curPos,length,skip,rope,"\n")
         curPos += length
         curPos += skip
         curPos %= len(rope)
