@@ -7,14 +7,6 @@ severity = 0
 maxdepth = -1
 curdepth = -1
 
-for line in fileinput.input():
-    if line == '\n':
-        break
-    splitline = line.split()
-    firewall[splitline[0].strip(':')] = {'position': 0, 'range': int(splitline[1]), 'direction': 1}
-    maxdepth = max(maxdepth, int(splitline[0].strip(':')))
-    
-    
 #Input: dictionary of: {position, range, direction}. Output: None (Modifies original object)
 def advanceSingleFirewallDepth(depth):
     depth['position'] += depth['direction']
@@ -23,19 +15,33 @@ def advanceSingleFirewallDepth(depth):
     elif depth['position'] == 0:
         depth['direction'] = 1
 
+
+for line in fileinput.input():
+    if line == '\n':
+        break
+    splitline = line.split()
+    depth = splitline[0].strip(':')
+    fwobject = {'position': 0, 'range': int(splitline[1]), 'direction': 1}
+    
+    #Line up the firewall so everything is as it will be on our arrival
+    for offset in range(int(depth)):
+        advanceSingleFirewallDepth(fwobject)
+    firewall[depth] = fwobject
+    maxdepth = max(maxdepth, int(depth))
+
+
 def advanceFirewall(firewall):
     for depth in firewall:
         fwobject = firewall[depth]
         advanceSingleFirewallDepth(fwobject)
+
+
 def calcSeverity(OGFirewall, maxdepth):
-    firewall = copy.deepcopy(OGFirewall)
     severity = 0
     for i in range(0,maxdepth+1):
         if str(i) in firewall:
             if firewall[str(i)]["position"] == 0:
-                #print("Caught at", i)
                 severity += i * firewall[str(i)]["range"]
-        advanceFirewall(firewall)
     return severity
     
 print(calcSeverity(firewall,maxdepth))
