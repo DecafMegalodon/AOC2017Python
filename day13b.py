@@ -36,12 +36,26 @@ def advanceFirewall(firewall):
         advanceSingleFirewallDepth(fwobject)
 
 
-def calcSeverity(OGFirewall, maxdepth):
+def calcSeverity(firewall, maxdepth):
     severity = 0
     for i in range(0,maxdepth+1):
         if str(i) in firewall:
             if firewall[str(i)]["position"] == 0:
                 severity += i * firewall[str(i)]["range"]
     return severity
-    
-print(calcSeverity(firewall,maxdepth))
+
+
+def hasSeverity(firewall):
+    for depth in firewall:
+        if firewall[depth]["position"] == 0:
+            return True
+
+wait = 0
+while True:
+    #print(calcSeverity(firewall,maxdepth))
+    if hasSeverity(firewall):
+        advanceFirewall(firewall)
+        wait += 1
+    else:
+        break
+print(wait)
