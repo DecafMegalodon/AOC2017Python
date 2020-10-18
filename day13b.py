@@ -13,16 +13,20 @@ for line in fileinput.input():
     splitline = line.split()
     firewall[splitline[0].strip(':')] = {'position': 0, 'range': int(splitline[1]), 'direction': 1}
     maxdepth = max(maxdepth, int(splitline[0].strip(':')))
+    
+    
+#Input: dictionary of: {position, range, direction}. Output: None (Modifies original object)
+def advanceSingleFirewallDepth(depth):
+    depth['position'] += depth['direction']
+    if depth['position'] == depth['range']-1:
+        depth['direction'] = -1
+    elif depth['position'] == 0:
+        depth['direction'] = 1
 
 def advanceFirewall(firewall):
     for depth in firewall:
         fwobject = firewall[depth]
-        fwobject['position'] += fwobject['direction']
-        if fwobject['position'] == fwobject['range']-1:
-            fwobject['direction'] = -1
-        elif fwobject['position'] == 0:
-            fwobject['direction'] = 1
-
+        advanceSingleFirewallDepth(fwobject)
 def calcSeverity(OGFirewall, maxdepth):
     firewall = copy.deepcopy(OGFirewall)
     severity = 0
