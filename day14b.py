@@ -25,10 +25,12 @@ def recurseAreaFind(disk, y, x):
 
     area = 1
     setDiskOccuptation(disk, y, x, 0)
-    for yoff in [-1, 1]:
-        for xoff in [-1, 1]:
-            area += recurseAreaFind(disk, y+yoff, x+xoff)
-
+    
+    area += recurseAreaFind(disk, y-1, x)
+    area += recurseAreaFind(disk, y+1, x)
+    area += recurseAreaFind(disk, y, x-1)
+    area += recurseAreaFind(disk, y, x+1)
+            
     return area
 
 #Build disk bitmap
@@ -50,4 +52,3 @@ for y in range(0,128):
             numRegions += 1
             
 print(numRegions)
-#print(fullDisk)
