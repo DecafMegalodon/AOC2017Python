@@ -13,6 +13,7 @@ Move the current position forward by that length plus the skip size.
 Increase the skip size by one.
 """
 
+
 #Reverses a subrange of a list given a start and length, wrapping around if needed.
 def reverseSpan(rope, start, length):
     #Technically, we're working with "string" not a "rope",
@@ -26,7 +27,8 @@ def reverseSpan(rope, start, length):
     
     return workRope
     
-def printHash(denseHash):
+"""Returns the hexadecimal equivalent in string form of the binary hash"""
+def printableHash(denseHash):
     fullHash = ""
     for eightbits in denseHash:
         partHash = hex(eightbits)
@@ -34,29 +36,36 @@ def printHash(denseHash):
         if(len(partHash) == 1):
             partHash = '0' + partHash
         fullHash += partHash
-    print(fullHash)
+    return(fullHash)
+
+
+"""Takes a string input and returns it back as a knothash in a list, 8 bits at a time"""
+def calcKnotHash(datastring):
+    rope = [i for i in range(0,256)]
+    denseHash = []
+    curPos = 0
+    skip = 0
+    
+    data = [ord(char) for char in datastring]
+    data += [17,31,73,47,23]
+    
+    for round in range(0,64):
+        for length in data:
+            rope = reverseSpan(rope, curPos, length)
+            curPos += length
+            curPos += skip
+            curPos %= len(rope)
+            skip += 1
+            
+    for block in range(0,16):
+        blockData = rope[block*16]
+        for subblock in range(1,16):
+            blockData = blockData ^ rope[block*16+subblock]
+        denseHash.append(blockData)
+    
+    return denseHash
+
 
 indata = fileinput.input().readline()[:-1:] #Omit the trailing newline python adds
-data = [ord(char) for char in indata]
-data += [17,31,73,47,23]
-
-rope = [i for i in range(0,256)]
-
-curPos = 0
-skip = 0
-for round in range(0,64):
-    for length in data:
-        rope = reverseSpan(rope, curPos, length)
-        curPos += length
-        curPos += skip
-        curPos %= len(rope)
-        skip += 1
-
-denseHash = []
-for block in range(0,16):
-    blockData = rope[block*16]
-    for subblock in range(1,16):
-        blockData = blockData ^ rope[block*16+subblock]
-    denseHash.append(blockData)
-    
-printHash(denseHash)
+knothash = calcKnotHash(indata)
+print(printableHash(knothash))
