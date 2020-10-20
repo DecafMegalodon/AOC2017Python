@@ -1,3 +1,4 @@
+#https://adventofcode.com/2017/day/14
 import fileinput
 from day10knothash import *
 
