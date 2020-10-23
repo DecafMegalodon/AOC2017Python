@@ -21,6 +21,9 @@ def partner(danceline, targ1, targ2):
     danceline[nTarg1] = targ2
     danceline[nTarg2] = targ1
 
+history = []
+# history.append(''.join(danceline))
+
 instructionCache = []
 for instruction in dance:
     operation = instruction[0]
@@ -35,7 +38,7 @@ for instruction in dance:
                             't2': t2})
     
 
-for round in range(1000):
+for round in range(1000000000):
     for instruction in instructionCache:
         operation = instruction['op']
         t1 = instruction['t1']
@@ -46,5 +49,15 @@ for round in range(1000):
             danceline[t1], danceline[t2] = danceline[t2], danceline[t1]
         else:  # This only leaves "partner swap", aka p
             partner(danceline, t1, t2)
-
+    stringEquiv = ''.join(danceline)
+    if stringEquiv in history:
+        #ophiejmclkbgadnf
+        index = history.index(stringEquiv)
+        period = round-index
+        print(history)
+        print(index, period, round, history.index('ophiejmclkbgadnf'))
+        print(history[(1000000000%period)-1])
+        break
+    else:
+        history.append(stringEquiv)
 print(''.join(danceline))
