@@ -26,14 +26,15 @@ def partner(danceline, targ1, targ2):
     newDance[nTarg2] = targ1
     return newDance
 
-for instruction in dance:
-    operation = instruction[0]
-    splitstruction = instruction[1:].split('/')
-    if(operation == 's'):  # Spin from back
-        danceline = spin(danceline,int(splitstruction[0]))
-    elif(operation == 'x'):  # Exchange positions
-        danceline = exchange(danceline, int(splitstruction[0]), int(splitstruction[1]))
-    else:  # This only leaves "partner swap", aka p
-        danceline = partner(danceline, splitstruction[0], splitstruction[1])
+for round in range(1000000000):
+    for instruction in dance:
+        operation = instruction[0]
+        splitstruction = instruction[1:].split('/')
+        if(operation == 's'):  # Spin from back
+            danceline = spin(danceline,int(splitstruction[0]))
+        elif(operation == 'x'):  # Exchange positions
+            danceline = exchange(danceline, int(splitstruction[0]), int(splitstruction[1]))
+        else:  # This only leaves "partner swap", aka p
+            danceline = partner(danceline, splitstruction[0], splitstruction[1])
 
 print(''.join(danceline))
