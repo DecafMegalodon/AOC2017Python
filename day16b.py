@@ -27,10 +27,14 @@ instructionCache = []
 for instruction in dance:
     operation = instruction[0]
     splitstruction = instruction[1:].split('/')
+    t1 = splitstruction[0]
+    t2 = splitstruction[1] if operation != 's' else 0
+    if operation == 's' or operation == 'x':
+        t1 = int(t1)
+        t2 = int(t2)
     instructionCache.append({'op': operation, 
-                            't1': splitstruction[0],
-                            't2': splitstruction[1] 
-                                if len(splitstruction) == 2 else 0})
+                            't1': t1,
+                            't2': t2})
     
 
 for round in range(1000):
@@ -39,9 +43,9 @@ for round in range(1000):
         t1 = instruction['t1']
         t2 = instruction['t2']
         if(operation == 's'):  # Spin from back
-            danceline = spin(danceline,int(t1))
+            danceline = spin(danceline,t1)
         elif(operation == 'x'):  # Exchange positions
-            exchange(danceline, int(t1), int(t2))
+            exchange(danceline, t1, t2)
         else:  # This only leaves "partner swap", aka p
             partner(danceline, t1, t2)
 
