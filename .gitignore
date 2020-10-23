@@ -128,5 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Don't include puzzle input files
 *input.txt
 *test.txt
+
+# Hey, I thought this was a python challenge?
+*.cpp
+a.out

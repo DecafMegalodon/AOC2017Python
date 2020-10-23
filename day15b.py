@@ -10,9 +10,17 @@ genBFactor = 48271  # Both of these are provided by the puzzle outside of input
 
 agreement = 0
 
-for round in range(40000000):
-    genA = (genA*genAFactor) % 2147483647
-    genB = (genB*genBFactor) % 2147483647
+for round in range(5000000):
+    while True:
+        genA = (genA*genAFactor) % 2147483647
+        if genA % 4 == 0:
+            break
+
+    while True:        
+        genB = (genB*genBFactor) % 2147483647
+        if genB % 8 == 0:
+            break
+
     if genA % 65536 == genB % 65536:
         agreement += 1
         
