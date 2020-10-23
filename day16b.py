@@ -8,8 +8,7 @@ danceline = [chr(i) for i in range(ord('a'),ord('p')+1)]
 
 def spin(danceline, magnitude):
     workline = danceline + danceline
-    size = len(danceline)
-    return workline[size-magnitude:2*size-magnitude]
+    return workline[16-magnitude:32-magnitude]
     
 def exchange(danceline, targ1, targ2):
     buff = danceline[targ1]
@@ -23,7 +22,6 @@ def partner(danceline, targ1, targ2):
     danceline[nTarg2] = targ1
 
 instructionCache = []
-
 for instruction in dance:
     operation = instruction[0]
     splitstruction = instruction[1:].split('/')
@@ -45,7 +43,7 @@ for round in range(1000):
         if(operation == 's'):  # Spin from back
             danceline = spin(danceline,t1)
         elif(operation == 'x'):  # Exchange positions
-            exchange(danceline, t1, t2)
+            danceline[t1], danceline[t2] = danceline[t2], danceline[t1]
         else:  # This only leaves "partner swap", aka p
             partner(danceline, t1, t2)
 
