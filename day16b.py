@@ -51,13 +51,9 @@ for round in range(1000000000):
             partner(danceline, t1, t2)
     stringEquiv = ''.join(danceline)
     if stringEquiv in history:
-        #ophiejmclkbgadnf
         index = history.index(stringEquiv)
         period = round-index
-        print(history)
-        print(index, period, round, history.index('ophiejmclkbgadnf'))
         print(history[(1000000000%period)-1])
         break
     else:
         history.append(stringEquiv)
-print(''.join(danceline))
