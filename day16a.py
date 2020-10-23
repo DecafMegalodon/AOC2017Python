@@ -5,7 +5,6 @@ dance = fileinput.input().readline().split(',')
 dance = [instruction.strip('\n') for instruction in dance]
 
 danceline = [chr(i) for i in range(ord('a'),ord('p')+1)]
-print(danceline)
 
 def spin(danceline, magnitude):
     workline = danceline + danceline
@@ -30,15 +29,11 @@ def partner(danceline, targ1, targ2):
 for instruction in dance:
     operation = instruction[0]
     splitstruction = instruction[1:].split('/')
-    print(instruction, splitstruction)
     if(operation == 's'):  # Spin from back
         danceline = spin(danceline,int(splitstruction[0]))
     elif(operation == 'x'):  # Exchange positions
         danceline = exchange(danceline, int(splitstruction[0]), int(splitstruction[1]))
     else:  # This only leaves "partner swap", aka p
         danceline = partner(danceline, splitstruction[0], splitstruction[1])
-    print(danceline)
-    danceCopy = [i for i in danceline]
-    danceCopy.sort()
-    assert danceCopy == [chr(i) for i in range(ord('a'),ord('p')+1)]
+
 print(''.join(danceline))
