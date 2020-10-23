@@ -12,29 +12,25 @@ def spin(danceline, magnitude):
     return workline[size-magnitude:2*size-magnitude]
     
 def exchange(danceline, targ1, targ2):
-    newDance = [i for i in danceline]
     buff = danceline[targ1]
-    newDance[targ1] = danceline[targ2]
-    newDance[targ2] = buff
-    return newDance
+    danceline[targ1] = danceline[targ2]
+    danceline[targ2] = buff
     
 def partner(danceline, targ1, targ2):
-    newDance = [i for i in danceline]
     nTarg1 = danceline.index(targ1)
     nTarg2 = danceline.index(targ2)
-    newDance[nTarg1] = targ2
-    newDance[nTarg2] = targ1
-    return newDance
+    danceline[nTarg1] = targ2
+    danceline[nTarg2] = targ1
 
-for round in range(1000000000):
+for round in range(1000):
     for instruction in dance:
         operation = instruction[0]
         splitstruction = instruction[1:].split('/')
         if(operation == 's'):  # Spin from back
             danceline = spin(danceline,int(splitstruction[0]))
         elif(operation == 'x'):  # Exchange positions
-            danceline = exchange(danceline, int(splitstruction[0]), int(splitstruction[1]))
+            exchange(danceline, int(splitstruction[0]), int(splitstruction[1]))
         else:  # This only leaves "partner swap", aka p
-            danceline = partner(danceline, splitstruction[0], splitstruction[1])
+            partner(danceline, splitstruction[0], splitstruction[1])
 
 print(''.join(danceline))
