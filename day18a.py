@@ -5,16 +5,16 @@ registers = {}
 for regName in range(ord("a"),ord("z")+1):
     registers[chr(regName)] = 0
 
-def readMem(memory, target):
+def readMem(registers, target):
     try: #Is target a number?
         return int(target)
     except: #target is not a number
-        return memory[target]
+        return registers[target]
         
-def writeMem(memory, target, value):
-    memory[target] = readMem(memory, value)
+def writeMem(registers, target, value):
+    registers[target] = readMem(registers, value)
         
-program = [line.split() for line in fileinput.input]
+program = [line.split() for line in fileinput.input()]
 pc = 0
 lastSound = None
 
@@ -23,20 +23,28 @@ while True:
     op = instruction[0]
     v1 = instruction[1]
     v2 = instruction[2] if len(instruction) > 2 else None
-        
+
+    #print(instruction)
     if op == 'snd':
-        continue
+        lastSound = readMem(registers, v1)
     elif op == 'set':
-        continue
+        writeMem(registers, v1, v2)
     elif op == 'add':
-        continue
+        writeMem(registers, v1, 
+            readMem(registers, v1) + readMem(registers, v2))
     elif op == 'mul':
-        continue
+        writeMem(registers, v1, 
+            readMem(registers, v1) * readMem(registers, v2))
     elif op == 'mod':
-        continue
+        writeMem(registers, v1, 
+            readMem(registers, v1) % readMem(registers, v2))
     elif op == 'rcv':
-        continue
+        if readMem(registers, v1) != 0:
+            print(lastSound)
+            exit(0)
     elif op == 'jgz':
-        continue
+        if readMem(registers, v1) > 0:
+            pc += readMem(registers, v2)
+            continue #  Skip the PC increase
     
-    
+    pc += 1
