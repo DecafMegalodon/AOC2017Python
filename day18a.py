@@ -4,10 +4,13 @@ import fileinput
 registers = {}
 for regName in range(ord("a"),ord("z")+1):
     registers[chr(regName)] = 0
+    
+program = [line.split() for line in fileinput.input]
+pc = 0
 
-for instruction in fileinput.input():
-    splitline = instruction.split()
-    op = splitline[0]
+while True:
+    instruction = program[pc]
+    op = instruction[0]
     if op == 'snd':
         continue
     elif op == 'set':
