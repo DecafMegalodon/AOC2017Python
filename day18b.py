@@ -1,22 +1,30 @@
 #  https://adventofcode.com/2017/day/18
 import fileinput
-
-registers = {}
-for regName in range(ord("a"),ord("z")+1):
-    registers[chr(regName)] = 0
-
-def readMem(registers, target):
-    try: #Is target a number?
-        return int(target)
-    except: #target is not a number
-        return registers[target]
-        
-def writeMem(registers, target, value):
-    registers[target] = readMem(registers, value)
         
 program = [line.split() for line in fileinput.input()]
 pc = 0
 lastSound = None
+
+class Program:
+    def __init__(self, initProgram, ID):
+        self.pc = 0 #program counter
+        self.registers = {}
+        for regName in range(ord("a"),ord("z")+1):
+            self.registers[chr(regName)] = 0
+        self.sendQueue = []
+        self.numSent = 0
+
+    def readMem(self, target):
+        try: #Is target a number?
+            return int(target)
+        except: #target is not a number
+            return self.registers[target]
+            
+    def writeMem(self, target, value):
+        self.registers[target] = self.readMem(registers, value)
+        
+    def run(self):
+        continue
 
 while True:
     instruction = program[pc]
