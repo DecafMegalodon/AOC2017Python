@@ -34,14 +34,12 @@ class Program:
         
         while True:
         
-            if self.pc >= len(self.program): #Reached the end of prog
+            if self.pc >= len(self.program): #  Reached the end of prog
                 return numInstructionsRunThisWake
             instruction = self.program[self.pc]
             op = instruction[0]
             v1 = instruction[1]
             v2 = instruction[2] if len(instruction) > 2 else None
-            
-            print(self.registers['p'], instruction)
             
             if op == 'snd':
                     self.sendQueue.append(self.readMem(v1))
@@ -71,12 +69,11 @@ class Program:
             numInstructionsRunThisWake += 1
 
 
-prog1 = Program(program, 0)
-prog2 = Program(program, 1)
+prog0 = Program(program, 0)
+prog1 = Program(program, 1)
 
 #  While at least one instruction is executed between the two:
-while(prog1.run(prog2) + prog2.run(prog1) > 0):
+while(prog0.run(prog1) + prog1.run(prog0) > 0):
     continue
 
 print(prog1.numSent)
-#6096 too high
