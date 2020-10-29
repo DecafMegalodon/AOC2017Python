@@ -19,15 +19,14 @@ curTravelChar = "|"
 totalTraveled = 0
 
 while True:
-    nextChar = path[curY+curVelY][curX+curVelX]
-    if nextChar in alphabet:
-        pathLetters += nextChar
+    curChar = path[curY][curX]
+    if curChar in alphabet:
+        pathLetters += curChar
     
-    if nextChar != '+': #  If we don't need to turn yet
-        curY += curVelY
-        curX += curVelX
+    if nextChar == '+': #  If we need to turn
+        pass
         
-    if nextChar == ' ':
-        break
-    print(nextChar)
+    curY += curVelY
+    curX += curVelX
+    print(curChar)
 print(pathLetters)
