@@ -12,11 +12,6 @@ alphabet = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
 pathLetters = ""
 travelChars = "-|"
 
-#Todo list:
-
-#Build pathfinder
-    #Default direction is stright ahead, unless we encounter a +
-
 #  Find the start of the path on the top row
 curX = path[0].index("|")
 curY = 0
@@ -28,7 +23,7 @@ totalTraveled = 0
 while True:
 
     curChar = getChar(path, curY, curX)
-    if curChar == ' ': #We can't leave the path!
+    if curChar == ' ': #  We can't leave the path!
         break
 
     if curChar in alphabet:
@@ -36,7 +31,7 @@ while True:
     
     if curChar == '+': #  If we need to turn
         curTravelChar = '-' if curTravelChar == '|' else '|'
-        if curTravelChar == '-': #Horizontal travel
+        if curTravelChar == '-': #  Horizontal travel
             curVelY = 0
             if getChar(path, curY,curX + 1) != ' ':
                 curVelX = 1
@@ -48,7 +43,6 @@ while True:
                 curVelY = 1
             else:
                 curVelY = -1
-        print(curVelY, curVelX)
     curY += curVelY
     curX += curVelX
     totalTraveled += 1
