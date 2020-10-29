@@ -2,8 +2,9 @@
 import fileinput
 
 path = [line for line in fileinput.input()]
-alphabet = [chr(i) for i in range(ord('a'), ord('z') + 1)]
+alphabet = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
 pathLetters = ""
+travelChars = "-|"
 
 #Todo list:
 
@@ -19,13 +20,20 @@ curTravelChar = "|"
 totalTraveled = 0
 
 while True:
-    curChar = path[curY][curX]
+    try:
+        curChar = path[curY][curX]
+    except:
+        break
+    assert curChar != ' '
     if curChar in alphabet:
         pathLetters += curChar
     
-    if nextChar == '+': #  If we need to turn
-        pass
-        
+    if curChar == '+': #  If we need to turn
+        curTravelChar = '-' if curTravelChar == '|' else '|'
+        if path[curY+curVelX][curX+curVelY] == curTravelChar:
+            curVelY, curVelX = -1 * curVelX, -1 * curVelY
+        else:
+            curVelY, curVelX = curVelX, curVelY
     curY += curVelY
     curX += curVelX
     print(curChar)
