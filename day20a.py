@@ -2,10 +2,12 @@
 import fileinput
 
 class particle:
-    def __init__(self, pos, vel, acc):
-        self.pos = pos
-        self.vel = vel
-        self.acc = acc
+    def __init__(self, description):
+        splitline = description.split('>')[:3]
+        splitline = [component.strip(', pva=<') for component in splitline]
+        self.pos = [int(i) for i in splitline[0].split(',')]
+        self.vel = [int(i) for i in splitline[1].split(',')]
+        self.acc = [int(i) for i in splitline[2].split(',')]
         self.dist = self.distance()
         
     def distance(self):
@@ -15,5 +17,16 @@ class particle:
     def __lt__(self, other):
         return self.distance() < other.distance()
         
-speck = particle([1,1,1], [], [])
-print(speck.dist)
+    def __str__(self):
+        return f"Pos: {self.pos} Vel: {self.vel} Acc: {self.acc} dist: {self.dist}"
+
+particles = []
+
+for line in fileinput.input():
+    particles.append(particle(line))
+
+particles.sort()    
+
+for i in particles:
+    print(i)
+    
