@@ -33,18 +33,21 @@ for line in fileinput.input():
     particles.append(particle(line, len(particles)))
    
 jail = set() #indices of particles that have already been detected as collided
+newjail = set()
 
 #  10000 steps is definitely enough for AOC. You can probably safely lower it to 1000
 for step in range(1000):
     for i in particles:
         i.step()
+    #Are there any colisions? Looks wasteful but is still HUGELY faster than the n^2 full collision detection
     if len(particles) != len(set([str(j.pos) for j in particles])):
-        print("KABOOM!")
         for outer in range(0, len(particles)):
             for inner in range(outer + 1, len(particles)):
                 if (particles[outer].pos == particles[inner].pos) and (outer not in jail and inner not in jail):
-                    jail.add(outer)
-                    jail.add(inner)
+                    newjail.add(outer)
+                    newjail.add(inner)
+        jail = jail.union(newjail)
+        newjail.clear()
 particles.sort()
 
 print(jail)
