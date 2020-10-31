@@ -43,13 +43,12 @@ for step in range(1000):
     if len(particles) != len(set([str(j.pos) for j in particles])):
         for outer in range(0, len(particles)):
             for inner in range(outer + 1, len(particles)):
-                if (particles[outer].pos == particles[inner].pos) and (outer not in jail and inner not in jail):
+                if (particles[outer].pos == particles[inner].pos):
                     newjail.add(outer)
                     newjail.add(inner)
-        jail = jail.union(newjail)
+        particles = [particles[i] for i in range(len(particles)) if i not in newjail]
         newjail.clear()
 particles.sort()
 
-print(jail)
 print(len(particles) - len(jail))
 # 542 too high
