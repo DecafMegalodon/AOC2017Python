@@ -28,18 +28,17 @@ class particle:
         return f"Pos: {self.pos} Vel: {self.vel} Acc: {self.acc} dist: {self.dist}, id: {self.id}"
 
 particles = []
+newjail = set() #indices of particles that have already been detected as collided
 
+#  Process input
 for line in fileinput.input():
     particles.append(particle(line, len(particles)))
    
-jail = set() #indices of particles that have already been detected as collided
-newjail = set()
-
-#  10000 steps is definitely enough for AOC. You can probably safely lower it to 1000
-for step in range(1000):
+#  Execute simulator
+for step in range(1000): #  1000 is more than enough. ~50-100 is probably a sweet spot
     for i in particles:
         i.step()
-    #Are there any colisions? Looks wasteful but is still HUGELY faster than the n^2 full collision detection
+    #  Are there any colisions? Looks wasteful but is still HUGELY faster than the n^2 full collision detection
     if len(particles) != len(set([str(j.pos) for j in particles])):
         for outer in range(0, len(particles)):
             for inner in range(outer + 1, len(particles)):
@@ -48,7 +47,5 @@ for step in range(1000):
                     newjail.add(inner)
         particles = [particles[i] for i in range(len(particles)) if i not in newjail]
         newjail.clear()
-particles.sort()
 
-print(len(particles) - len(jail))
-# 542 too high
+print(len(particles))
