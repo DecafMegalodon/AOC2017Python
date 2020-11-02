@@ -35,8 +35,35 @@ def flipHoriz(subimg):
     return [i[::-1] for i in subimg]
     
     
-test = ['#..','...','x..']
-test = flipVert(test)
-test = flipHoriz(test)
-test = rotate(test, 2)
-print(test)
+image = ['.#.',
+         '..#',
+         '###']
+     
+     
+rulesDict = {}
+
+for rule in fileinput.input():
+    if rule == '\n':
+        break
+    splitline = rule.split(" => ")
+    rulesDict[splitline[0]] = splitline[1].strip('\n')
+
+
+for iteration in range(2):
+    dim = len(image)
+    
+    assert dim % 2 == 0 or dim % 3 == 0
+    
+    divisor = 2 if (dim % 2 == 0) else 3
+    
+    #  Process the image by chunk
+    for width in range(0, dim, divisor):
+        for height in range(0, dim, divisor):
+            subimage = []
+            for subrow in range(divisor):
+                subimage.append(image
+                        [height+subrow]
+                        [width : width + divisor])
+            print(subimage)    
+        
+    
