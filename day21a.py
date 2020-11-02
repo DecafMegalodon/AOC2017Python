@@ -34,11 +34,24 @@ def flipVert(subimg):
 def flipHoriz(subimg):
     return [i[::-1] for i in subimg]
     
+#Takes a subimage and flips it horizonally or vertically as needed
+#Flipdescriptor format: 0bXY
+#X = hoirzontal flip, Y = vertical flip
+def processFlip(subimage, flipDescriptor):
+    horizFlip = flipDescriptor % 2
+    vertFlip = flipDescriptor - horizFlip
+    newImage = subimage
+    if horizFlip:
+        newImage = flipHoriz(newImage)
+    if vertFlip:
+        newImage = flipVert(newImage)
+    return newImage
+    
     
 image = ['.#.',
          '..#',
          '###']
-     
+newImage = []
      
 rulesDict = {}
 
@@ -60,10 +73,34 @@ for iteration in range(2):
     for width in range(0, dim, divisor):
         for height in range(0, dim, divisor):
             subimage = []
+            
+            #  Fetch subimage
             for subrow in range(divisor):
                 subimage.append(image
                         [height+subrow]
                         [width : width + divisor])
-            print(subimage)    
+                        
+            rotation = 0
+            flips = 0 #See processFlip for documentation
+            foundRule = False
+            provisionalImage = [] #  Linearized squares before we reform it into an image
+            
+            while not foundRule:
+                if flips == 4: #We've tried all combinations for flips for this rotation
+                    rotation += 1
+                    flips = 0
+                assert rotation != 4 #  This indicates a failed search for a rule
+                
+                newImage = rotate(subimage, rotation)
+                newImage = processFlip(newImage, flips)
+                print(newImage)
+                if '/'.join(newImage) in rulesDict:
+                    print("FOUND RULE!")
+                    provisionalImage += rulesDict['/'.join(newImage)].split("/")
+                    foundRule = True
+                else:    
+                    flips += 1
+ 
         
+    print(provisionalImage)
     
