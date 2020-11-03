@@ -48,17 +48,12 @@ def processFlip(subimage, flipDescriptor):
         newImage = flipVert(newImage)
     return newImage
     
-def buildImage(provisionalImage, numBlocksSide):
-    newLine = ""
-    print(provisionalImage)
-    blockSize = len(provisionalImage[0])
-    fullSize = numBlocksSide * blockSize
-    newImage = [""] * fullSize
-    for blocknum in range(len(provisionalImage)):
-        verticalOffset = (blocknum//blockSize)*blockSize
-        for subline in range(blockSize):
-            newImage[verticalOffset+subline] += provisionalImage[blocknum][subline]
-    return newImage
+#  Image MUST be built left to right
+def imprintImage(image, rule, startY):
+    print(image,rule,startY)
+    for y in range(len(rule)):
+        image[startY + y] += rule[y]
+    print("built image:", image)
     
 image = ['.#.',
          '..#',
@@ -73,12 +68,16 @@ for rule in fileinput.input():
     rulesDict[splitline[0]] = splitline[1].strip('\n')
 
 
-for iteration in range(2):
+for iteration in range(5):
     dim = len(image)
     
     assert dim % 2 == 0 or dim % 3 == 0
     
     divisor = 2 if (dim % 2 == 0) else 3
+    newChunkSize = 3 if divisor == 2 else 4
+
+    provisionalImage = [''] * (dim // divisor * newChunkSize)
+    print("Blank image:", provisionalImage)
     
     #  Process the image by chunk
     for width in range(0, dim, divisor):
@@ -94,7 +93,7 @@ for iteration in range(2):
             rotation = 0
             flips = 0 #See processFlip for documentation
             foundRule = False
-            provisionalImage = [] #  Linearized squares before we reform it into an image
+
             
             while not foundRule:
                 if flips == 4: #We've tried all combinations for flips for this rotation
@@ -106,14 +105,20 @@ for iteration in range(2):
                 newImage = processFlip(newImage, flips)
                 print(newImage)
                 if '/'.join(newImage) in rulesDict:
-                    print("FOUND RULE!")
-                    provisionalImage.append( rulesDict['/'.join(newImage)].split("/") )
+                    print("FOUND RULE!", height, width)
+                    replacement = rulesDict['/'.join(newImage)]
+                    print("Replacement:", replacement)
+                    imprintImage(provisionalImage,
+                                    replacement.split('/'),
+                                    height // divisor * newChunkSize)
                     foundRule = True
                 else:    
                     flips += 1
- 
-    print("Provisional:", provisionalImage)
-    image = buildImage(provisionalImage, dim//divisor)
-    print("new image:", image)
-    
-print(image)
+                    
+    image = provisionalImage
+
+onSum = 0
+
+for row in image:
+    onSum += row.count('#')
+print(onSum)
