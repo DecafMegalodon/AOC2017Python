@@ -50,10 +50,8 @@ def processFlip(subimage, flipDescriptor):
     
 #  Image MUST be built left to right
 def imprintImage(image, rule, startY):
-    print(image,rule,startY)
     for y in range(len(rule)):
         image[startY + y] += rule[y]
-    print("built image:", image)
     
 image = ['.#.',
          '..#',
@@ -77,7 +75,6 @@ for iteration in range(5):
     newChunkSize = 3 if divisor == 2 else 4
 
     provisionalImage = [''] * (dim // divisor * newChunkSize)
-    print("Blank image:", provisionalImage)
     
     #  Process the image by chunk
     for width in range(0, dim, divisor):
@@ -103,11 +100,8 @@ for iteration in range(5):
                 
                 newImage = rotate(subimage, rotation)
                 newImage = processFlip(newImage, flips)
-                print(newImage)
                 if '/'.join(newImage) in rulesDict:
-                    print("FOUND RULE!", height, width)
                     replacement = rulesDict['/'.join(newImage)]
-                    print("Replacement:", replacement)
                     imprintImage(provisionalImage,
                                     replacement.split('/'),
                                     height // divisor * newChunkSize)
