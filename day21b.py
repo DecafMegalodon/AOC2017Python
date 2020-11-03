@@ -66,7 +66,7 @@ for rule in fileinput.input():
     rulesDict[splitline[0]] = splitline[1].strip('\n')
 
 
-for iteration in range(5):
+for iteration in range(18):
     dim = len(image)
     
     assert dim % 2 == 0 or dim % 3 == 0
