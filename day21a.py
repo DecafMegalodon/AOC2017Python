@@ -1,5 +1,6 @@
 #  https://adventofcode.com/2017/day/21
 import fileinput
+import math
 
 
 '''
@@ -47,11 +48,21 @@ def processFlip(subimage, flipDescriptor):
         newImage = flipVert(newImage)
     return newImage
     
+def buildImage(provisionalImage, numBlocksSide):
+    newLine = ""
+    print(provisionalImage)
+    blockSize = len(provisionalImage[0])
+    fullSize = numBlocksSide * blockSize
+    newImage = [""] * fullSize
+    for blocknum in range(len(provisionalImage)):
+        verticalOffset = (blocknum//blockSize)*blockSize
+        for subline in range(blockSize):
+            newImage[verticalOffset+subline] += provisionalImage[blocknum][subline]
+    return newImage
     
 image = ['.#.',
          '..#',
          '###']
-newImage = []
      
 rulesDict = {}
 
@@ -96,11 +107,13 @@ for iteration in range(2):
                 print(newImage)
                 if '/'.join(newImage) in rulesDict:
                     print("FOUND RULE!")
-                    provisionalImage += rulesDict['/'.join(newImage)].split("/")
+                    provisionalImage.append( rulesDict['/'.join(newImage)].split("/") )
                     foundRule = True
                 else:    
                     flips += 1
  
-        
-    print(provisionalImage)
+    print("Provisional:", provisionalImage)
+    image = buildImage(provisionalImage, dim//divisor)
+    print("new image:", image)
     
+print(image)
