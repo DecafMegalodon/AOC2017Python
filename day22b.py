@@ -38,6 +38,8 @@ class sparseGrid:
 grid = sparseGrid()
 origGridWidth = -1
 origGridHeight = 0
+infectProg = ".W#F" #Infection progress. Clean, weakened, infected, flagged
+#infectRotate = [-1,0,1,2]
 
 for line in fileinput.input():
     origGridHeight += 1
@@ -54,17 +56,17 @@ curDirVert = -1
 curDirHoriz = 0
 numBursts = 0
 
-for iteration in range(10000):
+for iteration in range(10000000):
     curSpot = grid.getItem(curY, curX)
-    
+    infectionIndex = infectProg.index(curSpot)
     #Rotate the "carrier"
     #Infected = rotate clockwise, uninfected = ccw
-    rotationAmount = 1 if curSpot == '#' else -1
+    rotationAmount = infectionIndex - 1
     curDirVert, curDirHoriz = rotate(curDirVert, curDirHoriz, rotationAmount)
     
     #  Flip infection status of current node. 
-    numBursts += (curSpot == '.') #  Uptick the infection counter if it's an uninf. node
-    grid.setItem(curY, curX, '#' if curSpot == '.' else '.')
+    numBursts += (curSpot == 'W') #  Uptick the infection counter if it's an weakened node
+    grid.setItem(curY, curX, infectProg[(infectionIndex + 1) % 4])
     
     #  Move forward
     curY += curDirVert
