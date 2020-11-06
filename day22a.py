@@ -22,8 +22,24 @@ class sparseMatrix:
         keyname = '%d,%d' % (y,x)
         self.matrix[keyname] = item
         
+    def __len__(self):
+        return len(self.matrix)
+        
 
-test = sparseMatrix()
-test.setItem(0,0,'a')
-assert test.numOf('a') == 1
-print(test.getItem(0,0))
+grid = sparseMatrix()
+origGridWidth = -1
+origGridHeight = 0
+
+for line in fileinput.input():
+    origGridHeight += 1
+    for charPos in range(len(line)):
+        if line[charPos] == '\n':
+            continue
+        grid.setItem(origGridHeight - 1, charPos, line[charPos])
+        
+origGridWidth = len(grid) // origGridHeight
+
+curY = origGridWidth // 2
+curX = origGridHeight // 2 #  Start in the middle of the original grid
+
+print(curY, curX)
