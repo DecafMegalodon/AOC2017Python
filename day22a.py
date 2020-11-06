@@ -1,6 +1,15 @@
 #https://adventofcode.com/2017/day/22
 import fileinput
 
+#  Returns a rotated y,x direction vector. Positive direction indicate clockwise rotation
+#  Direction should be in the number of 90 degree increments desired
+def rotate(curY, curX, direction):
+    rotationList = ["-1,0", "0,1", "1,0", "0,-1"] #  Ascending clockwise
+    listPos = rotationList.index('%d,%d' % (curY, curX))
+    newRotationStrings = rotationList[((listPos + direction) % 4)].split(',')
+    return (int(newRotationStrings[0]), int(newRotationStrings[1]))
+
+    
 class sparseGrid:
     def __init__(self):
         self.matrix = dict()
@@ -16,7 +25,7 @@ class sparseGrid:
         try:
             return self.matrix[keyname]
         except KeyError:
-            return 0
+            return '.'
         
     def setItem(self, y, x, item):
         keyname = '%d,%d' % (y,x)
@@ -45,7 +54,20 @@ curDirVert = -1
 curDirHoriz = 0
 numBursts = 0
 
-for iteration in range(7):
-    #  Check current node. Infected = turn right, Uninfected, turn left
+for iteration in range(10000):
+    curSpot = grid.getItem(curY, curX)
+    
+    #Rotate the "carrier"
+    #Infected = rotate clockwise, uninfected = ccw
+    rotationAmount = 1 if curSpot == '#' else -1
+    curDirVert, curDirHoriz = rotate(curDirVert, curDirHoriz, rotationAmount)
+    
     #  Flip infection status of current node. 
+    numBursts += (curSpot == '.') #  Uptick the infection counter if it's an uninf. node
+    grid.setItem(curY, curX, '#' if curSpot == '.' else '.')
+    
     #  Move forward
+    curY += curDirVert
+    curX += curDirHoriz
+    
+print(numBursts)
