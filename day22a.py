@@ -1,7 +1,7 @@
 #https://adventofcode.com/2017/day/22
 import fileinput
 
-class sparseMatrix:
+class sparseGrid:
     def __init__(self):
         self.matrix = dict()
     
@@ -26,7 +26,7 @@ class sparseMatrix:
         return len(self.matrix)
         
 
-grid = sparseMatrix()
+grid = sparseGrid()
 origGridWidth = -1
 origGridHeight = 0
 
@@ -41,5 +41,11 @@ origGridWidth = len(grid) // origGridHeight
 
 curY = origGridWidth // 2
 curX = origGridHeight // 2 #  Start in the middle of the original grid
+curDirVert = -1
+curDirHoriz = 0
+numBursts = 0
 
-print(curY, curX)
+for iteration in range(7):
+    #  Check current node. Infected = turn right, Uninfected, turn left
+    #  Flip infection status of current node. 
+    #  Move forward
