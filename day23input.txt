@@ -1,21 +1,21 @@
-set b 57
-set c b
+set b 57					b 57
+set c b						c 57
 jnz a 2	-------|
-jnz 1 5	------ | --|
-mul b 100      <   |
-sub b -100000      |
-set c b            |
-sub c -17000       |
-set f 1            <
-set d 2
-set e 2        <
+jnz 1 5	------ | --|		jumped over
+mul b 100      <   |		b 5700
+sub b -100000      |		b 105700<
+set c b            |        c 105700
+sub c -17000       |        c 122700<
+set f 1            <        f 1<
+set d 2                     d 2<
+set e 2        <			e 2<
 set g d      < |
-mul g e      | |
-sub g b      | |
+mul g e      | |			
+sub g b      | |            g = d * e - b (initially -105696)
 jnz g 2 --|  | |
-set f 0   |  | |
-sub e -1  <  | |
-set g e      | |
+set f 0   |  | |			f 0<
+sub e -1  <  | |			
+set g e      | |			
 sub g b      | |
 jnz g -8 ----| |
 sub d -1       |

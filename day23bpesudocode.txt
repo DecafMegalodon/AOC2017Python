@@ -1,0 +1,40 @@
+b = 105700
+c = 122700
+
+label a:
+e = 2
+
+label b:
+g = d * e -b
+if g != 0:
+	goto c
+f = 0
+
+label c:
+e = e + 1
+g = e - b
+if g != 0:
+	goto b
+	
+d = d + 1
+g = d - b
+if g != 0:
+	goto a
+	
+if f != 0:
+	goto d
+
+h = h + 1
+
+label d:
+g = b - c
+
+if g != 0
+	goto e
+
+if l != 0
+	goto END
+
+label e:
+if l != 0
+	goto a
