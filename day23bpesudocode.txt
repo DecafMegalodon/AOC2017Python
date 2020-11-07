@@ -29,12 +29,10 @@ h = h + 1
 
 label echo:
 g = b - 122700
-if g != 0:
-	goto foxtrot
-if True:
+if g == 0:
 	goto END
 
-label foxtrot:
 b = b + 17
-if True:
-	goto alpha
+goto alpha
+
+label END
