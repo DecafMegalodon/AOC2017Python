@@ -9,6 +9,7 @@ class Program:
         self.registers = {}
         for regName in range(ord("a"),ord("h")+1):
             self.registers[chr(regName)] = 0
+        self.registers['a'] = 1
         self.program = initProgram #  Shallow copied
 
     def readMem(self, target):
@@ -36,28 +37,14 @@ class Program:
             v1 = instruction[1]
             v2 = instruction[2] if len(instruction) > 2 else None
             
-            if op == 'snd':
-                    self.sendQueue.append(self.readMem(v1))
-                    self.numSent += 1
-            elif op == 'set':
+            if op == 'set':
                 self.writeMem(v1, v2)
-            elif op == 'add':
-                self.writeMem(v1, 
-                    self.readMem(v1) + self.readMem(v2))
             elif op == 'sub':
                 self.writeMem(v1, 
                     self.readMem(v1) - self.readMem(v2))
             elif op == 'mul':
                 self.writeMem(v1, 
                     self.readMem(v1) * self.readMem(v2))
-                numMultsThisWake += 1
-            elif op == 'mod':
-                self.writeMem(v1, 
-                    self.readMem(v1) % self.readMem(v2))
-            elif op == 'jgz':
-                if self.readMem(v1) > 0:
-                    self.pc += self.readMem(v2)
-                    continue #  Skip the PC increase
             elif op == 'jnz':
                 if self.readMem(v1) != 0:
                     self.pc += self.readMem(v2)
@@ -68,6 +55,6 @@ class Program:
 
 
 prog0 = Program(program, 0)
-numMults = prog0.run()
+prog0.run()
 
-print(numMults)
+print(prog0.registers['p'])
