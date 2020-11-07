@@ -1,40 +1,39 @@
 b = 105700
 c = 122700
 
-label a:
+label alpha:
+f = 1
+d = 2
+
+label beta:
 e = 2
 
-label b:
-g = d * e -b
-if g != 0:
-	goto c
+label charlie:
+g = d * e - b
+if g != 0
+	goto delta
 f = 0
 
-label c:
+label delta:
 e = e + 1
 g = e - b
 if g != 0:
-	goto b
-	
+	goto charlie
 d = d + 1
 g = d - b
-if g != 0:
-	goto a
-	
-if f != 0:
-	goto d
-
-h = h + 1
-
-label d:
-g = b - c
-
 if g != 0
-	goto e
-
-if l != 0
+	goto beta
+if f != 0
+	goto echo
+h = h + 1
+	
+label echo:
+g = b - c
+if g != 0:
+	goto foxtrot
+if 1 (one) != 0:
 	goto END
-
-label e:
-if l != 0
-	goto a
+	
+label foxtrot:
+if 1 (one) != 0 
+	goto alpha
