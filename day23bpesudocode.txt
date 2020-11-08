@@ -7,20 +7,15 @@ d = 2
 
 label bravo:
 e = 2
-
-label charlie:
-if b != d*e:
-	goto delta
-f = 0
 	
 label delta
 e = e + 1
 if b != e:
-	goto charlie
+	goto delta
 d = d + 1
 if b != d:
 	goto bravo
-if f != 0:
+if b == d*e:
 	goto echo
 h = h + 1					;Our output register
 
