@@ -1,23 +1,44 @@
-const c = 122700
 b = 105700
+c = 122700
 
-label alpha:				;1000(0,1) executions?
-h = h + 1					;Our output register
+label alpha:
+f = 1
+d = 2
 
-if b == 122700:
+label bravo:
+e = 2
+
+label charlie:
+g = d
+g = g * e
+g = g - b
+if g != 0:
+	goto delta
+f = 0
+
+label delta:
+e = e + 1
+g = e
+g = g - b
+if g != 0
+	goto charlie
+d = d + 1
+g = d
+g = g - b
+if g != 0
+	goto bravo
+if f != 0
+	goto echo
+h = h + 1
+
+label echo:
+g = b
+g = g - c
+if g != 0
+	goto foxtrot
+if 1 != 0
 	goto END
-
-b = b + 17					;This will execute 10000 times
-goto alpha
-
-label END
-
-
-set c 122700
-set b 105700
-sub h -1
-set g 122700
-sub g b
-jez g 10000					;End the program
-sub b -17
-jnz 1 -5
+	
+label foxtrot
+b = b + 17
+if 1 != 0 goto alpha
