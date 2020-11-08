@@ -1,7 +1,7 @@
 const c = 122700
 b = 105700
 
-label alpha:
+label alpha:				;1000(0,1) executions?
 f = 1
 d = 2
 
@@ -9,30 +9,26 @@ label bravo:
 e = 2
 
 label charlie:
-g = d * e - b
-if g != 0:
+if b != d*e:
 	goto delta
 f = 0
 	
 label delta
 e = e + 1
-g = e - b
-if g != 0:
+if b != e:
 	goto charlie
 d = d + 1
-g = d - b
-if g != 0:
+if b != d:
 	goto bravo
 if f != 0:
 	goto echo
-h = h + 1
+h = h + 1					;Our output register
 
 label echo:
-g = b - 122700
-if g == 0:
+if b != 122700:
 	goto END
 
-b = b + 17
+b = b + 17					;This will execute 10000 times
 goto alpha
 
 label END
