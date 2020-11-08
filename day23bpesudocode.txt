@@ -2,28 +2,22 @@ const c = 122700
 b = 105700
 
 label alpha:				;1000(0,1) executions?
-f = 1
-d = 2
-
-label bravo:
-e = 2
-	
-label delta
-e = e + 1
-if b != e:
-	goto delta
-d = d + 1
-if b != d:
-	goto bravo
-if b == d*e:
-	goto echo
 h = h + 1					;Our output register
 
-label echo:
-if b != 122700:
+if b == 122700:
 	goto END
 
 b = b + 17					;This will execute 10000 times
 goto alpha
 
 label END
+
+
+set c 122700
+set b 105700
+sub h -1
+set g 122700
+sub g b
+jez g 10000					;End the program
+sub b -17
+jnz 1 -5

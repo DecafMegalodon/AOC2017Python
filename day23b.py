@@ -13,7 +13,6 @@ class Program:
         self.program = initProgram #  Shallow copied
 
     def readMem(self, target):
-        #print("Trying to read: ", target)
         try: #Is target a number?
             return int(target)
         except: #target is not a number
@@ -26,17 +25,15 @@ class Program:
        Returns the number of instructions run for this invocation of run
     '''
     def run(self):
-        numMultsThisWake = 0
-        
+        progLen = len(self.program)
         while True:
         
-            if self.pc >= len(self.program): #  Reached the end of prog
-                return numMultsThisWake
+            if self.pc >= progLen: #  Reached the end of prog
+                return
             instruction = self.program[self.pc]
             op = instruction[0]
             v1 = instruction[1]
-            v2 = instruction[2] if len(instruction) > 2 else None
-            
+            v2 = instruction[2]
             if op == 'set':
                 self.writeMem(v1, v2)
             elif op == 'sub':
@@ -49,12 +46,14 @@ class Program:
                 if self.readMem(v1) != 0:
                     self.pc += self.readMem(v2)
                     continue #  Skip the PC increase
-            else:
-                print('INSTRUCTION NOT FOUND!!!')
+            elif op == 'jez':  #Jump if equal to zero
+                if self.readMem(v1) == 0:
+                    self.pc += self.readMem(v2)
+                    continue #  Skip the PC increase
             self.pc += 1
 
 
 prog0 = Program(program, 0)
 prog0.run()
 
-print(prog0.registers['p'])
+print(prog0.registers['h'])
