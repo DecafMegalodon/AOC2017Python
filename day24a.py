@@ -37,11 +37,15 @@ class bridgeComps:
         except: #  No pins matching our hostPins
             return
 
+
+
+
 bridgeBits = bridgeComps()
-bridgeBits.addConnector(1,4)
-bridgeBits.addConnector(1,5)
-bridgeBits.addConnector(4,3)
-for match in bridgeBits.getMatchingPins(4):
-    print(match)
-for match in bridgeBits.getMatchingPins(1000000):
+for line in fileinput.input():
+    if line == '\n':
+        break
+    splitLine = line.split('/')
+    bridgeBits.addConnector(int(splitLine[0]),int(splitLine[1].strip('\n')))
+    
+for match in bridgeBits.getMatchingPins(0):
     print(match)
