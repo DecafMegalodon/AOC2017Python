@@ -57,3 +57,4 @@ def recurseBuildBridge(bridgeParts, curStrength, curConnector):
     
 
 print(recurseBuildBridge(bridgeBits, 0, 0))
+#1554 too low
