@@ -33,7 +33,7 @@ class bridgeComps:
                 if self._pinTable[match][1] == 0: #  If it hasn't been used yet
                     self._pinTable[match][1] = 1 #  Mark as used
                     yield self._pinTable[match][0] - hostPins
-                    self._pinTable[match][1] = 1 #  Mark as no longer used
+                    self._pinTable[match][1] = 0 #  Mark as no longer used
         except: #  No pins matching our hostPins
             return
 
@@ -41,11 +41,20 @@ class bridgeComps:
 
 
 bridgeBits = bridgeComps()
+maxBridgeSize = -1
 for line in fileinput.input():
     if line == '\n':
         break
     splitLine = line.split('/')
     bridgeBits.addConnector(int(splitLine[0]),int(splitLine[1].strip('\n')))
     
-for match in bridgeBits.getMatchingPins(0):
-    print(match)
+#Finds the strongest buildable bridge with the parts given
+def recurseBuildBridge(bridgeParts, curStrength, curConnector):
+    maxStren = curStrength
+    for match in bridgeParts.getMatchingPins(curConnector):
+        maxStren = max(maxStren, curConnector + recurseBuildBridge(bridgeParts, curStrength, match))
+    return maxStren + curConnector
+    
+
+print(recurseBuildBridge(bridgeBits, 0, 0))
+#1554 too low
