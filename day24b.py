@@ -21,7 +21,6 @@ class bridgeComps:
         newIndex = len(self._pinTable)
         self._pinTable.append([pins1 + pins2, 0])
         for pin in (pins1, pins2):
-            
             try:
                 self._pinLookupDict[pin].append(newIndex)
             except:
@@ -49,12 +48,16 @@ for line in fileinput.input():
     bridgeBits.addConnector(int(splitLine[0]),int(splitLine[1].strip('\n')))
     
 #Finds the strongest buildable bridge with the parts given
-def recurseBuildBridge(bridgeParts, curStrength, curConnector):
+def recurseBuildBridge(bridgeParts, curStrength, curConnector, curLength):
     maxStren = curStrength
+    maxLength = curLength
     for match in bridgeParts.getMatchingPins(curConnector):
-        maxStren = max(maxStren, curConnector + recurseBuildBridge(bridgeParts, curStrength, match))
-    return maxStren + curConnector
+        result = recurseBuildBridge(bridgeParts, curStrength, match, curLength + 1)
+        if result[1] >= maxLength:
+            maxStren = max(maxStren, curConnector + result[0])
+            maxLength = result[1]
+    return (maxStren + curConnector, maxLength)
     
 
-print(recurseBuildBridge(bridgeBits, 0, 0))
-#1554 too low
+print(recurseBuildBridge(bridgeBits, 0, 0, 1))
+#2006 too high
