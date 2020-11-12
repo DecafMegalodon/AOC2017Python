@@ -51,13 +51,12 @@ for line in fileinput.input():
 def recurseBuildBridge(bridgeParts, curStrength, curConnector, curLength):
     maxStren = curStrength
     maxLength = curLength
+    fullNextStrength = 2 * curConnector + curStrength
     for match in bridgeParts.getMatchingPins(curConnector):
-        result = recurseBuildBridge(bridgeParts, curStrength, match, curLength + 1)
+        result = recurseBuildBridge(bridgeParts, fullNextStrength, match, curLength + 1)
         if result[1] >= maxLength:
-            maxStren = max(maxStren, curConnector + result[0])
+            maxStren = max(maxStren, result[0])
             maxLength = result[1]
-    return (maxStren + curConnector, maxLength)
+    return (maxStren, maxLength)
     
-
-print(recurseBuildBridge(bridgeBits, 0, 0, 1))
-#2006 too high
+print(recurseBuildBridge(bridgeBits, 0, 0, 1)[0])
