@@ -24,14 +24,8 @@ class expandGrid:
         sum = 0
         for yval in range(y-1, y+2): #  Range is not inclusive of last number
             for xval in range(x-1, y+2):
-                sum += self.grid[(y,x)]
+                sum += self.read(y,x)
         return sum
-        
-    def countNeighbors(self, y, x):
-        neighbors = 0
-        for yval in range(y-1, y+2): #  Range is not inclusive of last number
-            for xval in range(x-1, y+2):
-                sum += self.grid[(y,x)]
         
     def write(self, y, x, value):
         self.grid[(y,x)] = value
@@ -55,13 +49,29 @@ curX = 0
 curIndex = 1
 moveY = 0
 moveX = 1
+curRingStart = 1
+curRingCircumf = 1
+curRingQuadSize = None
 puzInput = int(fileinput.input().readline().strip('\n'))
 
-while lastValue < puzInput:
+while lastValue < puzInput and curIndex < 10:
     lastValue = grid.sumNeighbors(curY, curX)
     grid.write(curY, curX, lastValue)
+
+    #  update current rotation
+    if(math.sqrt(curIndex)%2 == 1): #  if it's a perfect square, we're starting a new ring
+        #  moveY, moveX = 1, 0 # set rotation upwards
+        curRingStart = curIndex
+        curRingCircumf = int((math.sqrt(curIndex)+2) ** 2 - curIndex)
+        curRingQuadSize = curRingCircumf // 4
+        
+    if curIndex % curRingQuadSize == 0: #  If we're at the edge of a quadrant
+        moveY, moveX = rotate(moveY, moveX, -1) #  Rotate the movement vector ccw
+        
+        
     curY += moveY
     curX += moveX
-    #  update current rotation
+    curIndex += 1
+    print((curY, curX), curIndex, curRingStart, curRingCircumf, curRingQuadSize, curIndex)
     
-    
+print(lastValue)
