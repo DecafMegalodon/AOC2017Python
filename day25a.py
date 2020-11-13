@@ -1,6 +1,25 @@
 #  https://adventofcode.com/2017/day/25
 import fileinput
 
+class TuringTape():
+    def __init__(self):
+        self.tape = {}
+    
+    def read(self, pos):
+        try:
+            return self.tape[pos]
+        except:
+            return 0
+            
+    def write(self, pos, value):
+        self.tape[pos] = value
+        
+    def count(self, value):
+        occurances = 0
+        for key in self.tape:
+            occurances += (self.tape[key] == value)
+        return occurances
+
 '''Reduce the input stream only what matters (tm).
 Does not perform integer conversion
 EX:
@@ -29,6 +48,9 @@ puzInput = fileinput.input()
 startState = puzInput.readline().split()[3].strip(".\n") #  Begin in state ?.
 numSteps = int(puzInput.readline().split()[5]) #  Perform a diagnostic checksum after ? steps.
 stateTable = {}
+tape = TuringTape()
+curState = startState
+tapePos = 0
 
 filteredInput = list(filterInput(puzInput))
 puzInput.close()
@@ -44,4 +66,10 @@ for bIndx in range(0, len(filteredInput), 9):
                                          'moveDirection': 1 if moveDir == 'right' else -1,
                                          'nextState': jumpState}
 
-print(stateTable)
+for step in range(numSteps):
+    stateInstruct = stateTable[(curState, tape.read(tapePos))]
+    tape.write(tapePos, stateInstruct['writeValue'])
+    tapePos += stateInstruct['moveDirection']
+    curState = stateInstruct['nextState']
+    
+print(tape.count(1))
