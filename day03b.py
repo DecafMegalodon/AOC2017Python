@@ -60,5 +60,8 @@ puzInput = int(fileinput.input().readline().strip('\n'))
 while lastValue < puzInput:
     lastValue = grid.sumNeighbors(curY, curX)
     grid.write(curY, curX, lastValue)
-    #  update current pos
+    curY += moveY
+    curX += moveX
+    #  update current rotation
+    
     
