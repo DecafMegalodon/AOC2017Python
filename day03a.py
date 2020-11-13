@@ -1,3 +1,4 @@
+#  https://adventofcode.com/2017/day/3
 """Observations:
 Some of these observations do not hold for the trivial case of index = 0.
 Addresses are 1-indexed
