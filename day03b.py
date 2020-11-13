@@ -63,6 +63,4 @@ while lastValue < puzInput:
         obsY, obsX = rotate(obsY, obsX, -1)
         moveY, moveX = rotate(moveY, moveX, -1)
     
-    print((curY, curX), lastValue)
 print(lastValue)
-print(rotate(-1,0,-1))
