@@ -25,7 +25,7 @@ Distance from the origin = the ring number(-1) + distance from the "center" of t
 import fileinput
 import math
 
-index = int(fileinput.input()[0])
+index = int(fileinput.input().readline().strip('\n'))
 
 ring = int(((math.sqrt(index-1)+1)//2)+1)
 ringStart = ((ring-1)*2-1) ** 2 + 1
