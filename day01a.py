@@ -14,6 +14,6 @@ runningSum = 0
 
 for i in range(0, len(puzInput)):
     if(getDigit(puzInput, i) == getDigit(puzInput, i + 1)):
-        runningSum += getDigit(input, i)
+        runningSum += getDigit(puzInput, i)
 
 print(runningSum)
