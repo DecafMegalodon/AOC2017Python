@@ -3,8 +3,6 @@ import fileinput
 import subprocess
 import time
 
-# output = subprocess.run(args=["python3", 'day01b.py'], stdin=ioPipe, capture_output=True)
-# print(output.stdout)
 testsPassed = 0
 testsFailed = 0
 testsSlow = 0
@@ -28,13 +26,15 @@ for day in range(1,25+1):
         result = "OK" if testCorrect else "FAIL"
         timeTaken = round(stopTime - startTime, 4)
         print("D" + paddedDay + part, str(result), timeTaken, "seconds")
+        
         if testCorrect:
             testsPassed += 1
         else:
             testsFailed += 1
-            
+
         if timeTaken >= 15:
             testsSlow += 1
+
         dayInput.seek(0,0)
 
 print("Test results: %d passed, %d failed, %d slow" % (testsPassed, testsFailed, testsSlow))
