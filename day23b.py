@@ -11,6 +11,5 @@ def isComposite(integer):
     
 nonPrimes = 0
 for i in range(105700, 122700+1, 17):
-    print(i)
     nonPrimes += isComposite(i)
 print(nonPrimes)

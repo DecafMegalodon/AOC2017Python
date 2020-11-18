@@ -11,4 +11,4 @@ for i in range(1, 50000000+1):
     position += (puzInput + 1) 
     position %= (i + 2)
     
-print(curAnswer)
+print(curAnswer + 1)

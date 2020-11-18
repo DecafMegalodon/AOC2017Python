@@ -7,7 +7,7 @@ import time
 # print(output.stdout)
 results = open("inputs/results.txt")
 
-for day in range(1,10+1):
+for day in range(1,25+1):
     paddedDay = ('0' if day < 10 
                 else '') + str(day)
     dayInput = open("inputs/day" + paddedDay + ".txt")
