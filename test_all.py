@@ -6,7 +6,8 @@ import time
 testsPassed = 0
 testsFailed = 0
 testsSlow = 0
-results = open("inputs/results.txt")
+results = [line.strip() for line in fileinput.input(files=("inputs/results.txt"))]
+
 
 for day in range(1,25+1):
     paddedDay = ('0' if day < 10 
@@ -21,7 +22,7 @@ for day in range(1,25+1):
                                 stdin=dayInput, capture_output=True)
         stopTime = time.time()
         output = str(subProc.stdout.decode('utf-8')).strip('\n')
-        expected = results.readline().strip('\n')
+        expected = results[(day*2) + (-2 if part == 'a' else -1)]
         testCorrect = (output == expected)
         result = "OK" if testCorrect else "FAIL"
         timeTaken = round(stopTime - startTime, 4)
