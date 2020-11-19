@@ -17,16 +17,22 @@ for day in range(1,25+1):
         if day == 25 and part == 'b': #  No part b on on 25th
             break
         progName = ''.join(['day', paddedDay, part, '.py'])
+        
         startTime = time.time()
         subProc = subprocess.run(args=["python3", progName],
                                 stdin=dayInput, capture_output=True)
         stopTime = time.time()
-        output = str(subProc.stdout.decode('utf-8')).strip('\n')
+        timeTaken = round(stopTime - startTime, 4)
+        
+        output = str(subProc.stdout.decode('utf-8')).strip()
         expected = results[(day*2) + (-2 if part == 'a' else -1)]
         testCorrect = (output == expected)
+        
         result = "OK" if testCorrect else "FAIL"
-        timeTaken = round(stopTime - startTime, 4)
-        print("D" + paddedDay + part, str(result), timeTaken, "seconds")
+        if testCorrect and timeTaken > 15:
+            result = "SLOW"
+            
+        print("D" + paddedDay + part, result, timeTaken, "seconds")
         
         if testCorrect:
             testsPassed += 1
