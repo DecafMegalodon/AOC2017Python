@@ -24,7 +24,7 @@ class sparseGrid:
         try:
             return self.matrix[(y,x)]
         except KeyError:
-            return '.'
+            return 0
         
     def setItem(self, y, x, item):
         self.matrix[(y,x)] = item
@@ -36,7 +36,7 @@ class sparseGrid:
 grid = sparseGrid()
 origGridWidth = -1
 origGridHeight = 0
-infectProg = ".W#F" #Infection progress. Clean, weakened, infected, flagged
+#infectProg = ".W#F" #Infection progress. Clean, weakened, infected, flagged
 #infectRotate = [-1,0,1,2]
 
 for line in fileinput.input():
@@ -44,7 +44,8 @@ for line in fileinput.input():
     for charPos in range(len(line)):
         if line[charPos] == '\n':
             continue
-        grid.setItem(origGridHeight - 1, charPos, line[charPos])
+        grid.setItem(origGridHeight - 1, charPos, 
+                        int(infectProg.index(line[charPos])))
         
 origGridWidth = len(grid) // origGridHeight
 
@@ -56,15 +57,14 @@ numBursts = 0
 
 for iteration in range(10000000):
     curSpot = grid.getItem(curY, curX)
-    infectionIndex = infectProg.index(curSpot)
     #Rotate the "carrier"
     #Infected = rotate clockwise, uninfected = ccw
-    rotationAmount = infectionIndex - 1
+    rotationAmount = curSpot - 1
     curDirVert, curDirHoriz = rotate(curDirVert, curDirHoriz, rotationAmount)
     
     #  Flip infection status of current node. 
-    numBursts += (curSpot == 'W') #  Uptick the infection counter if it's an weakened node
-    grid.setItem(curY, curX, infectProg[(infectionIndex + 1) % 4])
+    numBursts += (curSpot == 1) #  Uptick the infection counter if it's an weakened node
+    grid.setItem(curY, curX, (curSpot + 1) % 4)
     
     #  Move forward
     curY += curDirVert
