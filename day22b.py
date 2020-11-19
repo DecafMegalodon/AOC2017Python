@@ -21,15 +21,13 @@ class sparseGrid:
         return num
         
     def getItem(self, y, x):
-        keyname = '%d,%d' % (y,x)
         try:
-            return self.matrix[keyname]
+            return self.matrix[(y,x)]
         except KeyError:
             return '.'
         
     def setItem(self, y, x, item):
-        keyname = '%d,%d' % (y,x)
-        self.matrix[keyname] = item
+        self.matrix[(y,x)] = item
         
     def __len__(self):
         return len(self.matrix)
