@@ -4,11 +4,9 @@ import fileinput
 #  Returns a rotated y,x direction vector. Positive direction indicate clockwise rotation
 #  Direction should be in the number of 90 degree increments desired
 def rotate(curY, curX, direction):
-    rotationList = ["-1,0", "0,1", "1,0", "0,-1"] #  Ascending clockwise
-    listPos = rotationList.index('%d,%d' % (curY, curX))
-    newRotationStrings = rotationList[((listPos + direction) % 4)].split(',')
-    return (int(newRotationStrings[0]), int(newRotationStrings[1]))
-
+    rotationList = [(-1,0), (0,1), (1,0), (0,-1)] #  Ascending clockwise
+    listPos = rotationList.index((curY, curX))
+    return rotationList[((listPos + direction) % 4)]
     
 class sparseGrid:
     def __init__(self):
