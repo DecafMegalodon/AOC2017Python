@@ -7,13 +7,9 @@ severity = 0
 maxdepth = -1
 curdepth = -1
 
-#Input: dictionary of: {position, range, direction}. Output: None (Modifies original object)
+#Input: dictionary of: {position, range}. Output: None (Modifies original object)
 def advanceSingleFirewallDepth(depth):
-    depth['position'] += depth['direction']
-    if depth['position'] == depth['range']-1:
-        depth['direction'] = -1
-    elif depth['position'] == 0:
-        depth['direction'] = 1
+    depth['position'] = (depth['position'] + 1) % depth['range']
 
 
 for line in fileinput.input():
@@ -21,7 +17,9 @@ for line in fileinput.input():
         break
     splitline = line.split()
     depth = int(splitline[0].strip(':'))
-    fwobject = {'position': 0, 'range': int(splitline[1]), 'direction': 1}
+    fwCycleTime = int(splitline[1])
+    fwCycleTime = (fwCycleTime - 1) * 2
+    fwobject = {'position': 0, 'range': fwCycleTime}
     
     #Line up the firewall so everything is as it will be on our arrival
     for offset in range(int(depth)):
@@ -36,15 +34,6 @@ def advanceFirewall(firewall):
         advanceSingleFirewallDepth(fwobject)
 
 
-def calcSeverity(firewall, maxdepth):
-    severity = 0
-    for i in range(0,maxdepth+1):
-        if i in firewall:
-            if firewall[i]["position"] == 0:
-                severity += i * firewall[i]["range"]
-    return severity
-
-
 def hasSeverity(firewall):
     for depth in firewall:
         if firewall[depth]["position"] == 0:
@@ -52,7 +41,6 @@ def hasSeverity(firewall):
 
 wait = 0
 while True:
-    #print(calcSeverity(firewall,maxdepth))
     if hasSeverity(firewall):
         advanceFirewall(firewall)
         wait += 1
