@@ -20,7 +20,7 @@ for line in fileinput.input():
     if line == '\n':
         break
     splitline = line.split()
-    depth = splitline[0].strip(':')
+    depth = int(splitline[0].strip(':'))
     fwobject = {'position': 0, 'range': int(splitline[1]), 'direction': 1}
     
     #Line up the firewall so everything is as it will be on our arrival
@@ -39,9 +39,9 @@ def advanceFirewall(firewall):
 def calcSeverity(firewall, maxdepth):
     severity = 0
     for i in range(0,maxdepth+1):
-        if str(i) in firewall:
-            if firewall[str(i)]["position"] == 0:
-                severity += i * firewall[str(i)]["range"]
+        if i in firewall:
+            if firewall[i]["position"] == 0:
+                severity += i * firewall[i]["range"]
     return severity
 
 
