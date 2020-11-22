@@ -8,7 +8,7 @@ def getDigit(string, pos):
     return int(string[pos % len(string)])
 
 #  input from AOC day 1 will always be on a single line, including a \n
-puzInput = fileinput.input().readline()[:-1:]
+puzInput = fileinput.input().readline().strip()
 
 runningSum = 0
 

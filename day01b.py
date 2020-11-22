@@ -8,12 +8,13 @@ def getDigit(string, pos):
     return int(string[pos % len(string)])
 
 #  input from AOC day 1 will always be on a single line, including a \n
-puzInput = fileinput.input().readline()[:-1:]
+puzInput = fileinput.input().readline().strip()
 
 runningSum = 0
+halfLength = len(puzInput) // 2
 
 for i in range(0, len(puzInput)):
-    if(getDigit(puzInput, i) == getDigit(puzInput, i + len(puzInput) // 2)):
+    if(getDigit(puzInput, i) == getDigit(puzInput, i + halfLength)):
         runningSum += getDigit(puzInput, i)
 
 print(runningSum)
