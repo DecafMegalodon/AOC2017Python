@@ -14,7 +14,7 @@ for line in fileinput.input():
             permutations.append( [nums[first], nums[second]])
             
     for perm in permutations:
-        if perm[0] % perm[1] == 0 or perm[1] % perm[0] == 0:
+        if perm[0] % perm[1] == 0 or perm[1] % perm[0] == 0: #  If one evenly divides the other
             rollingChecksum += max(perm[0], perm[1]) // min(perm[0], perm[1])
             break
 
