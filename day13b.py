@@ -2,30 +2,10 @@
 import fileinput
 import copy
 
-firewall = {}
-severity = 0
-maxdepth = -1
-curdepth = -1
 
 #Input: dictionary of: {position, range}. Output: None (Modifies original object)
 def advanceSingleFirewallDepth(depth):
     depth['position'] = (depth['position'] + 1) % depth['range']
-
-
-for line in fileinput.input():
-    if line == '\n':
-        break
-    splitline = line.split()
-    depth = int(splitline[0].strip(':'))
-    fwCycleTime = int(splitline[1])
-    fwCycleTime = (fwCycleTime - 1) * 2
-    fwobject = {'position': 0, 'range': fwCycleTime}
-    
-    #Line up the firewall so everything is as it will be on our arrival
-    for offset in range(int(depth)):
-        advanceSingleFirewallDepth(fwobject)
-    firewall[depth] = fwobject
-    maxdepth = max(maxdepth, int(depth))
 
 
 def advanceFirewall(firewall):
@@ -38,6 +18,26 @@ def hasSeverity(firewall):
     for depth in firewall:
         if firewall[depth]["position"] == 0:
             return True
+
+
+firewall = {}
+severity = 0
+maxdepth = -1
+
+for line in fileinput.input():
+    if line == '\n':
+        break
+    splitline = line.split()
+    depth = int(splitline[0].strip(':'))
+    fwCycleTime = int(splitline[1])
+    fwCycleTime = (fwCycleTime - 1) * 2
+    fwobject = {'position': 0, 'range': fwCycleTime}
+    
+    #Line up the firewall so everything is as it will be on our arrival
+    for offset in range(depth):
+        advanceSingleFirewallDepth(fwobject)
+    firewall[depth] = fwobject
+    maxdepth = max(maxdepth, depth)
 
 wait = 0
 while True:
